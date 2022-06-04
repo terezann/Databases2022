@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title> <%= pageTitle %> </title>
+    <%/*We include the CSS*/ %> 
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <%- include("includes/navbar.ejs")%> <%/*We include navbar*/ %> 
+    <div class="container">
+        <div class="row" id="row">
+            <div class="col-md-12">
+                <form class="form-horizontal" name="Sci_name" action="/sci_field/with_interest" method="POST">
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="sci_name">Scientific Field:</label>
+                        <input type="text" id="sci_name" name="sci_name"><br><br> 
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-submit-custom">Submit</button>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+    <%/*if the variable query res*/%>
+    <%if(locals.query_res){ %>
+    <%/*HTML*/%>
+    <div class="container">
+        <div class="row" id="row">
+            <div class="col-md-12">
+                <div class="card" id="card-container">
+                    <div class="card-body" id="card">
+                        <% if (query_res.length == 0) { %> 
+                            <h1 style="margin-top: 5rem;">No answer can be found !</h1>
+                        <% } else { %>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                        <th>Sci_Field_Name</th>
+                                        <th>Project ID</th>
+                                        <th>Project title</th>
+                                        <th>Researcher ID</th>
+                                        <th></th>    
+                                    </tr>
+                                    </thead>
+                                <tbody>
+                                <% query_res.forEach((i, _) => { %>
+                                <tr>
+                                    <td><%= i.scientific_field_name %></td>
+                                    <td><%= i.project_id %></td>
+                                    <td><%= i.title %></td>
+                                    <td><%= i.researcher_id %></td>
+                                   
+                                </tr>
+                                <% }) %>
+                                </tbody>
+                                </table>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <%}%>
+    
+   
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

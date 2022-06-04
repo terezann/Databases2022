@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title> <%= pageTitle %> </title>
+    <%/*We include the CSS*/ %> 
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+</head>
+<body>
+    <%- include("includes/navbar.ejs")%> <%/*We include navbar*/ %> 
+
+    
+    <div class="container" id="row-container">  <%/*div row-container  -> sets other divs in a row*/%>  
+        <a class="btn btn-sec" id="tables-btn" href="/tables">Tables</a>
+        <div class="row" id="row">
+            <%/*QUERY 1*/%> 
+            <div class="col-md-4">
+                <div class="card" id="card-container-layout">
+                    <div class="card-body" id="card">
+                        <h4 class="card-title">Query 1</h4>
+                        <p class="card-text" id="paragraph">Query to show all the Programs by criteria</p>
+                        <a class="btn btn-primary" id="show-btn" href="/programs/projects/criteria">Show</a>
+                    </div>
+                </div>
+            </div>
+            <%/*QUERY 2A*/%>
+            <div class="col-md-4">
+                <div class="card" id="card-container-layout">
+                    <div class="card-body" id="card">
+                        <h4 class="card-title">Query 2A</h4>
+                        <p class="card-text" id="paragraph">Query to show all the projects by Researcher</p>
+                        <a class="btn btn-primary" id="show-btn" href="/projects/by_researcher">Show</a>
+                    </div>
+                </div>
+            </div>
+            <%/*QUERY 2B*/%>
+            <div class="col-md-4">
+                <div class="card" id="card-container-layout">
+                    <div class="card-body" id="card">
+                        <h4 class="card-title">Query 2B</h4>
+                        <p class="card-text" id="paragraph">Query to show all the projects by Executives</p>
+                        <a class="btn btn-primary" id="show-btn" href="/projects/by_executive">Show</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row" id="row">
+            <%/*QUERY 3*/%>
+            <div class="col-md-4">
+                <div class="card" id="card-container-layout">
+                    <div class="card-body" id="card">
+                        <h4 class="card-title">Query 3</h4>
+                        <p class="card-text" id="paragraph">Query to show the sci_field with great interest</p>
+                        <a class="btn btn-primary" id="show-btn" href="/sci_field/with_interest">Show</a>
+                    </div>
+                </div>
+            </div>
+            <%/*QUERY 4*/%>
+            <div class="col-md-4">
+                <div class="card" id="card-container-layout">
+                    <div class="card-body" id="card">
+                        <h4 class="card-title">Query 4</h4>
+                        <p class="card-text" id="paragraph">Query to show all the Organizations with the same amount of projects in 2 consecutive years (minimunm of 10 projects each year).</p>
+                        <a class="btn btn-primary" id="show-btn" href="/organizations/sameprojects_2years">Show</a>
+                    </div>
+                </div>
+            </div>
+             <%/*QUERY 5*/%>
+             <div class="col-md-4">
+                <div class="card" id="card-container-layout">
+                    <div class="card-body" id="card">
+                        <h4 class="card-title">Query 5</h4>
+                        <p class="card-text" id="paragraph">Query to show the answer to 3.5</p>
+                        <a class="btn btn-primary" id="show-btn" href="/sci_field/top3">Show</a>
+                    </div>
+                </div>
+            </div>      
+        </div>
+        <div class="row" id="row">
+            <div class="col-md-4">
+                <div class="card" id="card-container-layout">
+                    <div class="card-body" id="card">
+                        <h4 class="card-title">Query 6</h4>
+                        <p class="card-text" id="paragraph">Query to find the young researchers</p>
+                        <a class="btn btn-primary" id="show-btn" href="/projects/top">Show</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" id="card-container-layout">
+                    <div class="card-body" id="card">
+                        <h4 class="card-title">Query 7</h4>
+                        <p class="card-text" id="paragraph">Answer to query 3.7</p>
+                        <a class="btn btn-primary" id="show-btn" href="/exec/give">Show</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" id="card-container-layout">
+                    <div class="card-body" id="card">
+                        <h4 class="card-title">Query 8</h4>
+                        <p class="card-text" id="paragraph">Answer to query 3.8</p>
+                        <a class="btn btn-primary" id="show-btn" href="/projects/no_del">Show</a>
+                    </div>
+                </div>
+            </div>
+         </div>       
+    </div>
+
+</body>
+</html>

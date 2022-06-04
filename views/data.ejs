@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title> <%= pageTitle %> </title>
+    <%/*We include the CSS*/ %> 
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <%- include("includes/navbar.ejs")%> <%/*We include navbar*/ %> 
+
+    <div class="container">
+        <div class="row" id="row">
+            <div class="col-md-12">
+                <div class="card" id="card-container_new">
+                    <div class="card-body" id="card">
+                            <div class="table-responsive">
+                                <form method="GET" action="/tables/create/">
+ 
+                                    <button style="all: unset; cursor: pointer;" type="submit"><i class="fa fa-hand-o-left"></i></button>
+
+                                </form>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                        <% col_names.forEach((i, _) => { %>
+                                            <th><%=i.Field %></th>
+                                        <% }) %>
+                                        <th></th>
+                                        <th></th>
+                                        </tr>
+                                    </thead>
+                                <tbody>
+                                    <% query_res.forEach((i, _) => { %>
+                                        <tr>
+                                            
+                                            <% for(const key in i) { %> <%/*key = (executive_id or  executive_name)*/ %>
+                                                <td><%= i[key] %></td>
+                                            <% } %>
+                                                                                                                                      
+                                            <form method="GET" action="/tables/<%=table_name%>">
+                                                <td> 
+                                                    <button style="all: unset; cursor: pointer;" type="submit"><i class="fa fa-hand-o-left"></i></button>
+                                                </td>
+                                            </form>
+                                            <form method="GET" action="/tables/delete/<%=table_name%><%=i.id%>">
+                                                <td> 
+                                                    <button style="all: unset; cursor: pointer;" type="submit"><i class="fa fa-hand-o-left"></i></button>
+                                                </td>
+                                            </form>
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+                                </table>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

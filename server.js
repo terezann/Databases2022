@@ -15,7 +15,9 @@ const programs = require('./routes/programs');
 const sci_field = require('./routes/sci_field');
 const organizations = require('./routes/organizations');
 const exec = require('./routes/exec');
-const { json } = require("express/lib/response");
+const del = require('./routes/del')
+const update = require('./routes/update')
+
 
 
 server.set('view engine', 'ejs'); 
@@ -40,27 +42,7 @@ server.get("/" , (req,res) => {
     res.render ("index", { pageTitle: 'Home',messages})
 })    
 
-server.post('/update', (req, res) => {
-    var table_name = req.body.table;
-    var json_string = req.body.object;
-    var tuple = JSON.parse(json_string)
-    res.send(tuple);
-    console.log(table_name);
-    console.log(tuple);
-})
 
-server.post('/delete', (req, res) => {
-    var table_name = req.body.table;
-    var json_string = req.body.object;
-    var tuple = JSON.parse(json_string)
-    res.send(tuple);
-    console.log(table_name);
-    console.log(tuple);
-
-    if (table_name == 'executive'){ //auto gia ola
-        console.log(tuple.executive_id);
-    }
-})
 
 server.use('/tables', tables)
 
@@ -74,6 +56,9 @@ server.use('/organizations', organizations) // for all the requests (to /organiz
 
 server.use('/exec',exec) 
 
+server.use('/delete',del)
+
+server.use('/update', update);
 
 server.use(function (req,res,next){
 	res.render ("404", { pageTitle: '404' }) // in the parameter page title at the 404.ejs put 404

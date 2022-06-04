@@ -12,7 +12,7 @@ router.get('/:Tables_in_elidek', tablesController.getData);
 
 router.get('/create/:table_name', tablesController.getInsert);
 
-router.post('/create/:table_name/in', tablesController.postInsert);
+router.post('/create/:table_name', tablesController.postInsert);
 
 
 module.exports = router;

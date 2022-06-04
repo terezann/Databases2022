@@ -12,11 +12,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <%- include("../includes/navbar.ejs")%> <%/*We include navbar*/ %> 
+    <%- include("../includes/navbar.ejs")%> <%/*We include navbar*/ %>
+    <% if (locals.insert) {%>
     <div class="container">
         <div class="row" id="row">
             <div class="col-md-12">
-                <form class="form-horizontal" name="programs-criteria" action="/tables/create/executive/in" method="POST">
+                <form class="form-horizontal" name="programs-criteria" action="/tables/create/executive" method="POST">
                     <div class="form-group col-sm-3 mb-3">
                         <label for="exec_name">Executive Name</label>
                         <input type="text" id="exec_name" name="exec_name" placeholder="Enter executive name" required>
@@ -28,6 +29,30 @@
         </div>
         
     </div>
+    <%}%>
+    <%if (locals.update){%>
+        <div class="container">
+            <div class="row" id="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" name="programs-criteria" action="/update/perform_update" method="POST">
+                        <div class="form-group col-sm-3 mb-3">
+                            
+                            <input type="hidden" name="table" value="executive">
+                            <input type="hidden" name="object" value="<%= JSON.stringify(old_tuple) %>"> <%/* we need old tuple for executive_id*/%>
+                            
+                            <%/* new tuple*/%>
+                            <label for="exec_name">Executive Name</label>
+                            <input type="text" id="exec_name" name="exec_name" placeholder="Enter executive name" value="<%=old_tuple.executive_name%>"
+                            required>
+                        </div>
+                
+                        <button type="submit" class="btn btn-primary btn-submit-custom">Update</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    <%}%>
     
    
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>

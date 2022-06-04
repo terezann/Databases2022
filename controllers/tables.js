@@ -74,7 +74,8 @@ exports.getData = (req, res, next) => {
 
 function insertExec(req,res) {
     res.render('insertion/exec.ejs', {
-        pageTitle: "Executive Insertion"
+        pageTitle: "Executive Insertion",
+        insert: true
     });
  } 
 

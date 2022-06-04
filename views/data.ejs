@@ -36,25 +36,27 @@
                                         </tr>
                                     </thead>
                                 <tbody>
-                                    <% query_res.forEach((i, _) => { %>
+                                    <% query_res.forEach((i, _) => { %> <%/*i is the json object of the row of the database*/ %>
                                         <tr>
                                             
                                             <% for(const key in i) { %> <%/*key = (executive_id or  executive_name)*/ %>
                                                 <td><%= i[key] %></td>
                                             <% } %>
                                                                                                                                       
-                                            <form action="/update/" method="POST">
+                                            <form action="/update/show_form_update/" method="POST">
                                                 <td> 
+                                                    <%/*hidden inputs can not be seen by the user !*/ %>
+                                                    <%/*FOR EXAMPLE SET tupe = text !*/ %>
                                                     <input type="hidden" name="table" value="<%= table_name%>">
-                                                    <input type="hidden" name="object" value="<%= JSON.stringify(i) %>"> <%/* i: {exec_id : 2, exec_name:Tereza}* => "{\"exec_id\":1,\"exec_name\":Tereza\"}"}*/%>
-                                                    <button style="all: unset; cursor: pointer;" type="submit"><i class="fa fa-hand-o-left"></i></button>
+                                                    <input type="hidden" name="object" value="<%= JSON.stringify(i) %>"> <%/* i: {exec_id : 2, exec_name:Tereza}* => "{\"exec_id\":2,\"exec_name\":Tereza\"}"}*/%>
+                                                    <button style="all: unset; cursor: pointer;" type="submit"><i class="fa fa-pencil"></i></button>
                                                 </td>
                                             </form>
                                             <form action="/delete/" method="POST">
                                                 <td> 
                                                     <input type="hidden" name="table" value="<%= table_name%>">
                                                     <input type="hidden" name="object" value="<%= JSON.stringify(i) %>">
-                                                    <button style="all: unset; cursor: pointer;" type="submit"><i class="fa fa-hand-o-left"></i></button>
+                                                    <button style="all: unset; cursor: pointer;" type="submit"><i class="fa fa-trash"></i></button>
                                                 </td>
                                             </form>
                                         </tr>

@@ -6,6 +6,8 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 require('custom-env').env('localhost');     // Use as enviroment file the .env.localhost
 
+const session = require('express-session');
+const flash = require('connect-flash');
 // import routes
 const tables = require('./routes/tables');
 const projects = require('./routes/projects');
@@ -13,19 +15,52 @@ const programs = require('./routes/programs');
 const sci_field = require('./routes/sci_field');
 const organizations = require('./routes/organizations');
 const exec = require('./routes/exec');
+const { json } = require("express/lib/response");
+
 
 server.set('view engine', 'ejs'); 
 server.use(express.static('public'));       // static files are in public (CSS,html)
                                             // CSS for the layout of the html
+server.use(flash());
 
+server.use(session({
+    secret: "ThisShouldBeSecret",
+    resave: false,
+    saveUninitialized: false
+}));
 
 
 
 //GET https://localhost:3000/
 server.get("/" , (req,res) => {
-    
-    res.render ("index", { pageTitle: 'Home' })
-})              
+    /* check for messages in order to show them when rendering the page */
+    let messages = req.flash("messages");
+    if (messages.length == 0) messages = [];
+
+    res.render ("index", { pageTitle: 'Home',messages})
+})    
+
+server.post('/update', (req, res) => {
+    var table_name = req.body.table;
+    var json_string = req.body.object;
+    var tuple = JSON.parse(json_string)
+    res.send(tuple);
+    console.log(table_name);
+    console.log(tuple);
+})
+
+server.post('/delete', (req, res) => {
+    var table_name = req.body.table;
+    var json_string = req.body.object;
+    var tuple = JSON.parse(json_string)
+    res.send(tuple);
+    console.log(table_name);
+    console.log(tuple);
+
+    if (table_name == 'executive'){ //auto gia ola
+        console.log(tuple.executive_id);
+    }
+})
 
 server.use('/tables', tables)
 

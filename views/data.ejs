@@ -20,9 +20,9 @@
                 <div class="card" id="card-container_new">
                     <div class="card-body" id="card">
                             <div class="table-responsive">
-                                <form method="GET" action="/tables/create/">
+                                <form method="GET" action="/tables/create/<%=table_name%>">
  
-                                    <button style="all: unset; cursor: pointer;" type="submit"><i class="fa fa-hand-o-left"></i></button>
+                                    <button style="all: unset; cursor: pointer;" type="submit"><i class="fa fa-plus"><p>Insert into <%=table_name%></p></i></button>
 
                                 </form>
                                 <table class="table">
@@ -43,13 +43,17 @@
                                                 <td><%= i[key] %></td>
                                             <% } %>
                                                                                                                                       
-                                            <form method="GET" action="/tables/<%=table_name%>">
+                                            <form action="/update/" method="POST">
                                                 <td> 
+                                                    <input type="hidden" name="table" value="<%= table_name%>">
+                                                    <input type="hidden" name="object" value="<%= JSON.stringify(i) %>"> <%/* i: {exec_id : 2, exec_name:Tereza}* => "{\"exec_id\":1,\"exec_name\":Tereza\"}"}*/%>
                                                     <button style="all: unset; cursor: pointer;" type="submit"><i class="fa fa-hand-o-left"></i></button>
                                                 </td>
                                             </form>
-                                            <form method="GET" action="/tables/delete/<%=table_name%><%=i.id%>">
+                                            <form action="/delete/" method="POST">
                                                 <td> 
+                                                    <input type="hidden" name="table" value="<%= table_name%>">
+                                                    <input type="hidden" name="object" value="<%= JSON.stringify(i) %>">
                                                     <button style="all: unset; cursor: pointer;" type="submit"><i class="fa fa-hand-o-left"></i></button>
                                                 </td>
                                             </form>
@@ -66,6 +70,7 @@
 
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 
+    
 
 </body>
 </html>

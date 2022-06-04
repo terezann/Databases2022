@@ -72,5 +72,44 @@ exports.getData = (req, res, next) => {
     
 }
 
+function insertExec(req,res) {
+    res.render('insertion/exec.ejs', {
+        pageTitle: "Executive Insertion"
+    });
+ } 
 
+exports.getInsert = (req, res, next) => {
 
+    if (req.params.table_name == 'executive'){
+        insertExec(req,res)
+    }
+    
+    
+}
+
+exports.postInsert = (req, res, next) => {
+
+    if (req.params.table_name == 'executive'){
+        const name = req.body.exec_name;
+        var sql = `insert into Executive (executive_name) values (?);`
+        pool.getConnection((err, conn) => {
+            if(err){
+                console.log(err);
+            }
+            // a promise can succeed or fail.
+            conn.promise().query(sql, [name])
+            .then(() => {
+                               
+                pool.releaseConnection(conn);
+                req.flash('messages', { type: 'success', value: "Successfully added a new Executive!" })
+                res.redirect('/');
+            })
+            .catch(err => {
+                req.flash('messages', { type: 'error', value: "Something went wrong, Executive could not be added." })
+                res.redirect('/');
+            })
+        });
+    }
+    
+    
+}

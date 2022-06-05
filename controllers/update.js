@@ -150,6 +150,96 @@ function update_project(req, res,old_json_object,table_name){
 
 }
 
+
+function update_researcher(req, res,old_json_object,table_name){
+    
+    var new_re_name = req.re_name; // req.body... takes the inputs of the form !
+    var new_re_sname = req.body.re_sname;
+    var new_sex = req.body.sex;
+    var new_Bdate = req.body.Bdate;
+    var new_WSdate = req.body.WSdate;
+
+   
+    pool.getConnection((err, conn) => {
+        var sqlQuery = `update researcher set researcher_name=?, researcher_surname=?, sex=?, birth_date=?, work_starting_date=? where researcher_id=?`;
+        conn.promise().query(sqlQuery, [new_re_name, new_re_sname, new_sex, new_Bdate, new_WSdate, old_json_object.researcher_id])
+        .then(() => {
+            pool.releaseConnection(conn);
+            req.flash('messages', { type: 'success', value: "Successfully updated "+table_name+"!" })
+            res.redirect('/');
+        })
+        .catch(err => {
+            req.flash('messages', { type: 'error', value: "Something went wrong, "+table_name+" could not be updated." })
+            res.redirect('/');
+        })
+    })
+
+}
+
+
+function update_relates(req, res,old_json_object,table_name){
+    
+    var new_sf = req.body.sf; // req.body... takes the inputs of the form !
+   
+    pool.getConnection((err, conn) => {
+        var sqlQuery = `update relates set scientific_field_name = ? where (scientific_field_name=? and project_id=?)`; 
+        conn.promise().query(sqlQuery, [new_sf, old_json_object.scientific_field_name, old_json_object.project_id])
+        .then(() => {
+            pool.releaseConnection(conn);
+            req.flash('messages', { type: 'success', value: "Successfully updated "+table_name+"!" })
+            res.redirect('/');
+        })
+        .catch(err => {
+            req.flash('messages', { type: 'error', value: "Something went wrong, "+table_name+" could not be updated." })
+            res.redirect('/');
+        })
+    })
+
+}
+
+function update_work(req, res,old_json_object,table_name){
+    
+    var new_rid = req.body.rid; // req.body... takes the inputs of the form !
+    var new_Prid = req.body.Prid; 
+
+    pool.getConnection((err, conn) => {
+        var sqlQuery = `update worksatproject set researcher_id=?, project_id=? where (researcher_id=? and project_id=?)`; 
+        conn.promise().query(sqlQuery, [new_rid, new_Prid, old_json_object.researcher_id, old_json_object.project_id])
+        .then(() => {
+            pool.releaseConnection(conn);
+            req.flash('messages', { type: 'success', value: "Successfully updated "+table_name+"!" })
+            res.redirect('/');
+        })
+        .catch(err => {
+            req.flash('messages', { type: 'error', value: "Something went wrong, "+table_name+" could not be updated." })
+            res.redirect('/');
+        })
+    })
+
+}
+
+function update_field(req, res,old_json_object,table_name){
+    
+    var new_sfN = req.body.sfN; // req.body... takes the inputs of the form ! 
+
+    pool.getConnection((err, conn) => {
+        var sqlQuery = `update scientific_field set scientific_field_name = ? where scientific_field_name = ?`; 
+        conn.promise().query(sqlQuery, [new_sfN, old_json_object.scientific_field_name])
+        .then(() => {
+            pool.releaseConnection(conn);
+            req.flash('messages', { type: 'success', value: "Successfully updated "+table_name+"!" })
+            res.redirect('/');
+        })
+        .catch(err => {
+            req.flash('messages', { type: 'error', value: "Something went wrong, "+table_name+" could not be updated." })
+            res.redirect('/');
+        })
+    })
+
+}
+
+
+
 exports.perform_update = (req, res, next) => {
     var table_name = req.body.table;
     var json_string = req.body.object;
@@ -174,7 +264,18 @@ exports.perform_update = (req, res, next) => {
     else  if (table_name == 'project'){
         update_project(req,res,old_json_object,table_name)
     }
-    
+    else  if (table_name == 'researcher'){
+        update_researcher(req,res,old_json_object,table_name)
+    }
+    else  if (table_name == 'relates'){
+        update_relates(req,res,old_json_object,table_name)
+    }
+    else  if (table_name == 'worksatproject'){
+        update_work(req,res,old_json_object,table_name)
+    }
+    else  if (table_name == 'scientific_field'){
+        update_field(req,res,old_json_object,table_name)
+    }
    
 }
 
@@ -194,7 +295,7 @@ exports.showForm = (req,res) =>{
     }
 
     // ########### EVALUATION ############
-    if (table_name == 'evaluation'){
+    else if (table_name == 'evaluation'){
         res.render('Insertions_Updates/eval.ejs',{
             update: true,
             old_tuple : json_object, 
@@ -203,7 +304,7 @@ exports.showForm = (req,res) =>{
     }
 
     // ########### ORGANIZATION ############
-    if (table_name == 'organizationn'){
+    else if (table_name == 'organizationn'){
         res.render('Insertions_Updates/org.ejs',{
             update: true,
             old_tuple : json_object, 
@@ -212,7 +313,7 @@ exports.showForm = (req,res) =>{
     }
 
      // ########### PHONES ############
-     if (table_name == 'phones'){
+    else if (table_name == 'phones'){
         res.render('Insertions_Updates/phones.ejs',{
             update: true,
             old_tuple : json_object, 
@@ -221,7 +322,7 @@ exports.showForm = (req,res) =>{
     }
 
      // ########### PROGRAM ############
-     if (table_name == 'program'){
+    else if (table_name == 'program'){
         res.render('Insertions_Updates/prog.ejs',{
             update: true,
             old_tuple : json_object, 
@@ -230,11 +331,47 @@ exports.showForm = (req,res) =>{
     }
 
     // ########### PROJECT ############
-    if (table_name == 'project'){
+    else if (table_name == 'project'){
         res.render('Insertions_Updates/proJ.ejs',{
             update: true,
             old_tuple : json_object, 
             pageTitle: 'Update Project'
+        });
+    }
+
+    // ########### RESEARCHER ############
+    else if (table_name == 'researcher'){
+        res.render('Insertions_Updates/resea.ejs',{
+            update: true,
+            old_tuple : json_object, 
+            pageTitle: 'Update Researcher'
+        });
+    }
+
+    // ########### RELATES ############
+    else if (table_name == 'relates'){
+        res.render('Insertions_Updates/rela.ejs',{
+            update: true,
+            old_tuple : json_object, 
+            pageTitle: 'Update Relation'
+        });
+    }
+
+    // ########### WORKS AT PROJECT ############
+    else if (table_name == 'worksatproject'){
+        res.render('Insertions_Updates/wap.ejs',{
+            update: true,
+            old_tuple : json_object, 
+            pageTitle: 'Update Work Relation'
+        });
+    }
+
+    // ########### WORKS AT PROJECT ############
+    else if (table_name == 'scientific_field'){
+        res.render('Insertions_Updates/sf.ejs',{
+            update: true,
+            old_tuple : json_object, 
+            pageTitle: 'Update Scientific Field'
         });
     }
 }

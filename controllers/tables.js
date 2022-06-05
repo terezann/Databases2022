@@ -120,6 +120,7 @@ function insertEvaluation(req,res) {
         pageTitle: "Project Insertion",
         insert: true
     });
+    //res.send('Insert Project');
  } 
  
  function insertResearcher(req,res) {
@@ -129,7 +130,26 @@ function insertEvaluation(req,res) {
     });
  }
 
+ function insertRelates(req,res) {
+    res.render('Insertions_Updates/rela.ejs', {
+        pageTitle: "Relation Insertion",
+        insert: true
+    });
+ }
 
+ function insertWork(req,res) {
+    res.render('Insertions_Updates/wap.ejs', {
+        pageTitle: "Work Insertion",
+        insert: true
+    });
+ }
+
+ function insertSF(req,res) {
+    res.render('Insertions_Updates/sf.ejs', {
+        pageTitle: "Scientific Field Insertion",
+        insert: true
+    });
+ }
 
 exports.getInsert = (req, res, next) => {
 
@@ -153,6 +173,15 @@ exports.getInsert = (req, res, next) => {
     }
     else if (req.params.table_name == 'researcher'){
         insertResearcher(req,res)
+    }
+    else if (req.params.table_name == 'relates'){
+        insertRelates(req,res)
+    }
+    else if (req.params.table_name == 'worksatproject'){
+        insertWork(req,res)
+    }
+    else if (req.params.table_name == 'scientific_field'){
+        insertSF(req,res)
     }
 }
 
@@ -264,7 +293,7 @@ exports.postInsert = (req, res, next) => {
     }
 
     // ############## PROGRAMS ##################
-    if (req.params.table_name == 'program'){
+    else if (req.params.table_name == 'program'){
         const name = req.body.pro_name;
         const add = req.body.pro_add;
 
@@ -289,7 +318,7 @@ exports.postInsert = (req, res, next) => {
     }
 
     // ############## PROJECTS ##################
-    if (req.params.table_name == 'program'){
+    else if (req.params.table_name == 'project'){
         const title = req.body.pro_tit;
         const summary = req.body.pro_sum;
         const Sdate = req.body.pro_Sdate;
@@ -316,25 +345,32 @@ exports.postInsert = (req, res, next) => {
                 res.redirect('/');
             })
             .catch(err => {
+                
                 req.flash('messages', { type: 'error', value: "Something went wrong, Project could not be added." })
                 res.redirect('/');
+                
             })
         });
     }
     
 
     // ############## RESEARCHERS ##################
-    if (req.params.table_name == 'program'){
-        const title = req.body.pro_tit;
+    else if (req.params.table_name == 'researcher'){
+        const name = req.body.re_name;
+        const sur = req.body.re_sname;
+        const Sex = req.body.sex;
+        const birthdate = req.body.Bdate;
+        const workstartingdate = req.body.WSdate;
+        const title = req.body.org;
         
 
-        var sql = `insert into project (title, summary, start_date, end_date, amount, organizationn_id, executive_id, program_id, evaluation_id, evaluator_id, chief_id) values (?,?,?,?,?,?,?,?,?,?,?);`
+        var sql = `insert into researcher (researcher_name, researcher_surname, sex, birth_date, work_starting_date, organizationn_id) values (?,?,?,?,?,?);`
         pool.getConnection((err, conn) => {
             if(err){
                 console.log(err);
             }
             // a promise can succeed or fail.
-            conn.promise().query(sql, [title, summary, Sdate, Edate, amount, OrgId, ExeId, ProgId, EvaId, EvaluatorId, ChiefId])
+            conn.promise().query(sql, [name, sur, Sex, birthdate, workstartingdate, title])
             .then(() => {
                                
                 pool.releaseConnection(conn);
@@ -343,6 +379,86 @@ exports.postInsert = (req, res, next) => {
             })
             .catch(err => {
                 req.flash('messages', { type: 'error', value: "Something went wrong, Researcher could not be added." })
+                res.redirect('/');
+            })
+        });
+    }
+
+
+    // ############## RELATES ##################
+    else if (req.params.table_name == 'relates'){
+        const sci = req.body.sf;
+        const Pid = req.body.prid;
+        
+
+        var sql = `insert into relates (scientific_field_name, project_id) values (?,?);`
+        pool.getConnection((err, conn) => {
+            if(err){
+                console.log(err);
+            }
+            // a promise can succeed or fail.
+            conn.promise().query(sql, [sci, Pid])
+            .then(() => {
+                               
+                pool.releaseConnection(conn);
+                req.flash('messages', { type: 'success', value: "Successfully added a new Relation!" })
+                res.redirect('/');
+            })
+            .catch(err => {
+                req.flash('messages', { type: 'error', value: "Something went wrong, Relation could not be added." })
+                res.redirect('/');
+            })
+        });
+    }
+
+
+    // ############## WORKS AT PROJECT ##################
+    else if (req.params.table_name == 'worksatproject'){
+        const rese = req.body.rid;
+        const Proid = req.body.Prid;
+        
+
+        var sql = `insert into worksatproject (researcher_id, project_id) values (?,?);`
+        pool.getConnection((err, conn) => {
+            if(err){
+                console.log(err);
+            }
+            // a promise can succeed or fail.
+            conn.promise().query(sql, [rese, Proid])
+            .then(() => {
+                               
+                pool.releaseConnection(conn);
+                req.flash('messages', { type: 'success', value: "Successfully added a new Work Relation!" })
+                res.redirect('/');
+            })
+            .catch(err => {
+                req.flash('messages', { type: 'error', value: "Something went wrong, Work Relation could not be added." })
+                res.redirect('/');
+            })
+        });
+    }
+
+
+    // ############## SCIENTIFIC FIELD ##################
+    else if (req.params.table_name == 'scientific_field'){
+        const sfname = req.body.sfN;
+        
+
+        var sql = `insert into scientific_field (scientific_field_name) values (?);`
+        pool.getConnection((err, conn) => {
+            if(err){
+                console.log(err);
+            }
+            // a promise can succeed or fail.
+            conn.promise().query(sql, [sfname])
+            .then(() => {
+                               
+                pool.releaseConnection(conn);
+                req.flash('messages', { type: 'success', value: "Successfully added a new Scientific Field!" })
+                res.redirect('/');
+            })
+            .catch(err => {
+                req.flash('messages', { type: 'error', value: "Something went wrong, Scientic Field could not be added." })
                 res.redirect('/');
             })
         });

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title> <%= pageTitle %> </title>
+    <%/*We include the CSS*/ %> 
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <%- include("../includes/navbar.ejs")%> <%/*We include navbar*/ %>
+
+    <% if (locals.insert) { /*if insert=true from getInsert*/ %>
+    <div class="container">
+        <div class="row" id="row">
+            <div class="col-md-12">
+                <form class="form-horizontal" name="programs-criteria" action="/tables/create/organizationn" method="POST">
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="org_name">Organization Name</label>
+                        <input type="text" id="org_name" name="org_name" placeholder="Enter organization name" required>
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="org_abb">Abbreviation</label>
+                        <input type="text" id="org_abb" name="org_abb" placeholder="Enter abbreviation" required>
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="org_code">Postal Code</label>
+                        <input type="number" min="1" step="1" id="org_code" name="org_code" placeholder="Enter postal code" required>
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="org_str">Street Name</label>
+                        <input type="text" id="org_str" name="org_str" placeholder="Enter street name" required>
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="org_num">Number</label>
+                        <input type="number" min="1" step="1" id="org_num" name="org_num" placeholder="Enter number" required>
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="org_city">City</label>
+                        <input type="text" id="org_city" name="org_city" placeholder="Enter city" required>
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="org_comp_b">Company Budget</label>
+                        <input type="number" min="1000" step="1" id="org_comp_b" name="org_comp_b" placeholder="Enter company budget" >
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="org_uni_b">University Budget</label>
+                        <input type="number" min="1000" step="1" id="org_uni_b" name="org_uni_b" placeholder="Enter university budget">
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="org_res_b">Research Center Budget</label>
+                        <input type="number" min="1000" step="1" id="org_res_b" name="org_res_b" placeholder="Enter research center budget">
+                    </div>
+                    
+            
+                    <button type="submit" class="btn btn-primary btn-submit-custom">Add</button>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+    <%}%>
+    <%if (locals.update){%>
+        <div class="container">
+            <div class="row" id="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" name="programs-criteria" action="/update/perform_update" method="POST">
+                        <div class="form-group col-sm-3 mb-3">
+                            
+                            <%/*hidden table and json object that we need for the controller*/%>
+                            <input type="hidden" name="table" value="organizationn">
+                            <input type="hidden" name="object" value="<%= JSON.stringify(old_tuple) %>"> <%/* we need old tuple for executive_id*/%>
+                            
+                            <%/* new tuple*/%>
+                        <div class="form-group col-sm-3 mb-3">
+                            <label for="org_name">Organization Name</label>
+                            <input type="text" id="org_name" name="org_name" placeholder="Enter organization name" value="<%=old_tuple.organization_name%>" required>
+                        </div>
+                        <div class="form-group col-sm-3 mb-3">
+                            <label for="org_abb">Abbreviation</label>
+                            <input type="text" id="org_abb" name="org_abb" placeholder="Enter abbreviation" value="<%=old_tuple.abbreviation%>" required>
+                        </div>
+                        <div class="form-group col-sm-3 mb-3">
+                            <label for="org_code">Postal Code</label>
+                            <input type="number" min="1" step="1" id="org_code" name="org_code" placeholder="Enter postal code" value="<%=old_tuple.postal_code%>" required>
+                        </div>
+                        <div class="form-group col-sm-3 mb-3">
+                            <label for="org_str">Street Name</label>
+                            <input type="text" id="org_str" name="org_str" placeholder="Enter street name" value="<%=old_tuple.street%>" required>
+                        </div>
+                        <div class="form-group col-sm-3 mb-3">
+                            <label for="org_num">Number</label>
+                            <input type="number" min="1" step="1" id="org_num" name="org_num" placeholder="Enter number" value="<%=old_tuple.numberr%>" required>
+                        </div>
+                        <div class="form-group col-sm-3 mb-3">
+                            <label for="org_city">City</label>
+                            <input type="text" id="org_city" name="org_city" placeholder="Enter city" value="<%=old_tuple.city%>" required>
+                        </div>
+                        <div class="form-group col-sm-3 mb-3">
+                            <label for="org_comp_b">Company Budget</label>
+                            <input type="number" min="0" step="1" id="org_comp_b" name="org_comp_b" placeholder="Enter company budget" value="<%=old_tuple.company_budget%>" required>
+                        </div>
+                        <div class="form-group col-sm-3 mb-3">
+                            <label for="org_uni_b">University Budget</label>
+                            <input type="number" min="0" step="1" id="org_uni_b" name="org_uni_b" placeholder="Enter university budget" value="<%=old_tuple.university_budget%>" required>
+                        </div>
+                        <div class="form-group col-sm-3 mb-3">
+                            <label for="org_res_b">Research Center Budget</label>
+                            <input type="number" min="0" step="1" id="org_res_b" name="org_res_b" placeholder="Enter research center budget" value="<%=old_tuple.research_center_budget%>" required>
+                        </div>
+                
+                        <button type="submit" class="btn btn-primary btn-submit-custom">Update</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    <%}%>
+    
+   
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

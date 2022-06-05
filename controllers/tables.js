@@ -94,6 +94,20 @@ function insertEvaluation(req,res) {
     });
  }  
 
+ function insertOrganization(req,res) {
+    res.render('Insertions_Updates/org.ejs', {
+        pageTitle: "Organization Insertion",
+        insert: true
+    });
+ } 
+
+ function insertPhones(req,res) {
+    res.render('Insertions_Updates/phones.ejs', {
+        pageTitle: "Phones Insertion",
+        insert: true
+    });
+ } 
+
 exports.getInsert = (req, res, next) => {
 
     if (req.params.table_name == 'executive'){
@@ -102,10 +116,16 @@ exports.getInsert = (req, res, next) => {
     else if (req.params.table_name == 'evaluation'){
         insertEvaluation(req,res)
     }
-    
+    else if (req.params.table_name == 'organizationn'){
+        insertOrganization(req,res)
+    }
+    else if (req.params.table_name == 'phones'){
+        insertPhones(req,res)
+    }
 }
 
 exports.postInsert = (req, res, next) => {
+    // ############## EXECUTIVE ##################
 
     if (req.params.table_name == 'executive'){
         const name = req.body.exec_name;
@@ -127,6 +147,8 @@ exports.postInsert = (req, res, next) => {
                 res.redirect('/');
             })
         });
+
+        // ############## EVALUATION ##################
     } 
     else if (req.params.table_name == 'evaluation'){
         const grade = req.body.eval_grade;
@@ -149,7 +171,64 @@ exports.postInsert = (req, res, next) => {
                 res.redirect('/');
             })
         });
+
+
+        // ############## ORGANIZATION ##################
     }
-    
+    else if (req.params.table_name == 'organizationn'){
+        const name = req.body.org_name;
+        const abb = req.body.org_abb;
+        const pcode = req.body.org_code;
+        const street = req.body.org_str;
+        const number = req.body.org_num;
+        const city = req.body.org_city;
+        const comp_b = req.body.org_comp_b;
+        const uni_b = req.body.org_uni_b;
+        const res_b = req.body.org_res_b;
+
+        var sql = `insert into organizationn (organization_name, abbreviation, postal_code, street, numberr, city, company_budget, university_budget, research_center_budget) values (?,?,?,?,?,?,?,?,?);`
+        pool.getConnection((err, conn) => {
+            if(err){
+                console.log(err);
+            }
+            // a promise can succeed or fail.
+            conn.promise().query(sql, [name, abb, pcode, street, number, city, comp_b, uni_b, res_b])
+            .then(() => {
+                               
+                pool.releaseConnection(conn);
+                req.flash('messages', { type: 'success', value: "Successfully added a new Organization!" })
+                res.redirect('/');
+            })
+            .catch(err => {
+                req.flash('messages', { type: 'error', value: "Something went wrong, Organization could not be added." })
+                res.redirect('/');
+            })
+        });
+    }
+
+    // ############## PHONES ##################
+    else if (req.params.table_name == 'phones'){
+        const phone = req.body.pho;
+        const idd = req.body.id;
+
+        var sql = `insert into phones (phone, organizationn_id) values (?,?);`
+        pool.getConnection((err, conn) => {
+            if(err){
+                console.log(err);
+            }
+            // a promise can succeed or fail.
+            conn.promise().query(sql, [phone, idd])
+            .then(() => {
+                               
+                pool.releaseConnection(conn);
+                req.flash('messages', { type: 'success', value: "Successfully added a new Organization!" })
+                res.redirect('/');
+            })
+            .catch(err => {
+                req.flash('messages', { type: 'error', value: "Something went wrong, Organization could not be added." })
+                res.redirect('/');
+            })
+        });
+    }
     
 }

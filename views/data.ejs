@@ -29,7 +29,7 @@
                                     <thead>
                                         <tr>
                                         <% col_names.forEach((i, _) => { %>
-                                            <th><%=i.Field %></th>
+                                            <th><%=i.Field %></th> <%/*This is where we get executive_id and exe_name but for each table (Dynamically) */%>
                                         <% }) %>
                                         <th></th>
                                         <th></th>
@@ -41,13 +41,14 @@
                                             
                                             <% for(const key in i) { %> <%/*key = (executive_id or  executive_name)*/ %>
                                                 <%//console.log(i[0]) %>
-                                                <td><%= i[key] %></td>
+                                                <td><%= i[key] %></td>  <%/*for each executive_id, evaluation_id, whatever, we get it's value*/%>
                                             <% } %>
+                                            
                                                                                                                                       
                                             <form action="/update/show_form_update/" method="POST">
                                                 <td> 
                                                     <%/*hidden inputs can not be seen by the user !*/ %>
-                                                    <%/*FOR EXAMPLE SET tupe = text !*/ %>
+                                                    <%/*FOR EXAMPLE SET type = text !*/ %>
                                                     <input type="hidden" name="table" value="<%= table_name%>">
                                                     <input type="hidden" name="object" value="<%= JSON.stringify(i) %>"> <%/* i: {exec_id : 2, exec_name:Tereza}* => "{\"exec_id\":2,\"exec_name\":Tereza\"}"}*/%>
                                                     <button style="all: unset; cursor: pointer;" type="submit"><i class="fa fa-pencil"></i></button>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title> <%= pageTitle %> </title>
+    <%/*We include the CSS*/ %> 
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <%- include("../includes/navbar.ejs")%> <%/*We include navbar*/ %>
+    <% if (locals.insert) { /*if insert=true from getInsert*/ %>
+    <div class="container">
+        <div class="row" id="row">
+            <div class="col-md-12">
+                <form class="form-horizontal" name="programs-criteria" action="/tables/create/evaluation" method="POST">
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="grade">Evaluation Grade</label>
+                        <input type="number" min="1" step="1" max="10"  id="eval_grade" name="eval_grade" placeholder="grade" required>
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="date">Evaluation Date</label>
+                        <input type="date" id="eval_date" name="eval_date" value="2022-06-09"  required>
+                    </div>
+            
+                    <button type="submit" class="btn btn-primary btn-submit-custom">Add</button>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+    <%}%>
+    <%if (locals.update){%>
+        <div class="container">
+            <div class="row" id="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" name="programs-criteria" action="/update/perform_update" method="POST">
+                        <div class="form-group col-sm-3 mb-3">
+                            
+                            <input type="hidden" name="table" value="evaluation">
+                            <input type="hidden" name="object" value="<%= JSON.stringify(old_tuple) %>"> <%/* we need old tuple for executive_id*/%>
+                            
+                            <%/* new tuple*/%>
+                            <label for="eval_grade">Evaluation Grade</label>
+                            <input type="number" min="1" step="1" max="10"  id="eval_grade" name="eval_grade" placeholder="grade" required>
+                        </div>
+                        <div class="form-group col-sm-3 mb-3">
+                            <label for="eval_date">Evaluation Date</label>
+                            <input type="date" id="eval_date" name="eval_date" value="2022-06-09"  required>
+                            
+                        </div>
+                
+                        <button type="submit" class="btn btn-primary btn-submit-custom">Update</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    <%}%>
+    
+   
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

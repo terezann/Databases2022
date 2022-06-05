@@ -33,7 +33,7 @@ exports.getData = (req, res, next) => {
         conn.promise().query(`select * from ${req.params.Tables_in_elidek} `) 
         //req.params.Tables_in_elidek = the selected table !!
         .then(([rows, fields]) => {
-            query_res = rows;
+            query_res = rows;       //query_res = is a table ! 
             // res.render('data.ejs', {
             //     pageTitle: "Tuples",
             //     query_res: rows
@@ -80,19 +80,28 @@ exports.getData = (req, res, next) => {
     
 }
 
-function insertExec(req,res) {
-    res.render('insertion/exec.ejs', {
+function insertExecutive(req,res) {
+    res.render('Insertions_Updates/exec.ejs', {
         pageTitle: "Executive Insertion",
         insert: true
     });
- } 
+ }
+ 
+function insertEvaluation(req,res) {
+    res.render('Insertions_Updates/eval.ejs', {
+        pageTitle: "Evaluation Insertion",
+        insert: true
+    });
+ }  
 
 exports.getInsert = (req, res, next) => {
 
     if (req.params.table_name == 'executive'){
-        insertExec(req,res)
+        insertExecutive(req,res)
     }
-    
+    else if (req.params.table_name == 'evaluation'){
+        insertEvaluation(req,res)
+    }
     
 }
 
@@ -115,6 +124,28 @@ exports.postInsert = (req, res, next) => {
             })
             .catch(err => {
                 req.flash('messages', { type: 'error', value: "Something went wrong, Executive could not be added." })
+                res.redirect('/');
+            })
+        });
+    } 
+    else if (req.params.table_name == 'evaluation'){
+        const grade = req.body.eval_grade;
+        const date = req.body.eval_date;
+        var sql = `insert into evaluation (grade, evaluation_date) values (?, ?);`
+        pool.getConnection((err, conn) => {
+            if(err){
+                console.log(err);
+            }
+            // a promise can succeed or fail.
+            conn.promise().query(sql, [grade, date])
+            .then(() => {
+                               
+                pool.releaseConnection(conn);
+                req.flash('messages', { type: 'success', value: "Successfully added a new Evalutation!" })
+                res.redirect('/');
+            })
+            .catch(err => {
+                req.flash('messages', { type: 'error', value: "Something went wrong, Evaluation could not be added." })
                 res.redirect('/');
             })
         });

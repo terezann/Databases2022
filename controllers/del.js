@@ -175,11 +175,11 @@ function delete_scientific_field(req, res,json_object,table_name){
         conn.promise().query(sqlQuery, [json_object.scientific_field_name])
         .then(() => {
             pool.releaseConnection(conn);
-            req.flash('messages', { type: 'success', value: "Successfully deleted the Sci_field"+table_name+"!" })
+            req.flash('messages', { type: 'success', value: "Successfully deleted the Scientific Field !" })
             res.redirect('/');
         })
         .catch(err => {
-            req.flash('messages', { type: 'error', value: "Something went wrong, " +table_name+" could not be deleted." })
+            req.flash('messages', { type: 'error', value: "Something went wrong, the Scientific Field could not be deleted." })
             res.redirect('/');
         })
     })
@@ -207,8 +207,9 @@ function delete_project(req, res,json_object,table_name){
 exports.postDel = (req, res, next) => {
 
     var table_name = req.body.table;
-    var json_string = req.body.object;
-    var json_object = JSON.parse(json_string) // json_object is like a tuple !
+    var json_string = req.body.object;        //from hidden object and hidden table from data.ejs 
+    var json_object = JSON.parse(json_string) // json_object is like a tuple ! We return the string into json obj form.
+                                              // after pressing the delete button in data.ejs, it became a string
     
     console.log(table_name);
     console.log(json_object);

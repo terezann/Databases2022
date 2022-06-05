@@ -57,7 +57,8 @@ function update_organization(req, res,old_json_object,table_name){
     var new_org_uni_b = req.body.org_uni_b;
     var new_org_res_b = req.body.org_res_b;
 
-   
+    
+    
     pool.getConnection((err, conn) => {
         var sqlQuery = `update organizationn set organization_name=?, abbreviation=?, postal_code=?, street=?, numberr=?, city=?, company_budget=?, university_budget=?, research_center_budget=? where organizationn_id = ?`;
         conn.promise().query(sqlQuery, [new_org_name, new_org_abb, new_org_code, new_org_str, new_org_num, new_org_city, new_org_comp_b, new_org_uni_b, new_org_res_b, old_json_object.organizationn_id])
@@ -70,6 +71,7 @@ function update_organization(req, res,old_json_object,table_name){
             req.flash('messages', { type: 'error', value: "Something went wrong, Organization could not be updated." })
             res.redirect('/');
         })
+        
     })
 
 }

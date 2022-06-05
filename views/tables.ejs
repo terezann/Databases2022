@@ -29,7 +29,8 @@
                                 <tbody>
                                     <% query_res.forEach((i, _) => { %>
                                         <tr>
-                                            <%console.log(i.Tables_in_elidek)%>
+                                            <%//console.log(i)%>
+                                            <%//console.log(i.Tables_in_elidek)%> 
                                             <td><%= i.Tables_in_elidek %></td>
                                             <form method="GET" action="/tables/<%=i.Tables_in_elidek%>">
                                                 <td> 

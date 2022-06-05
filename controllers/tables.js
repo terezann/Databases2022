@@ -23,13 +23,15 @@ exports.getTables = (req, res, next) => {
 }
 
 exports.getData = (req, res, next) => {
-    var query_res;
+    var query_res; // we take it from the 1st connection and we use it at the second
+    
     pool.getConnection((err, conn) => {
         if(err){
             console.log(err);
         }
        
-        conn.promise().query(`select * from ${req.params.Tables_in_elidek} `) //req.params.Tables_in_elidek = the selected table !!
+        conn.promise().query(`select * from ${req.params.Tables_in_elidek} `) 
+        //req.params.Tables_in_elidek = the selected table !!
         .then(([rows, fields]) => {
             query_res = rows;
             // res.render('data.ejs', {
@@ -44,7 +46,7 @@ exports.getData = (req, res, next) => {
     
     
     });
-    //console.log(query_res)
+    
     pool.getConnection((err, conn) => {
         if(err){
             console.log(err);
@@ -62,7 +64,13 @@ exports.getData = (req, res, next) => {
                 table_name: req.params.Tables_in_elidek
                 //messages: messages
             })
-            //console.log(rows)
+            //console.log(query_res[0].executive_id )
+            /*
+            query_res = [{exec_id:1, exec_name:gregory},
+                        {exec_id:2, exec_name:tereza} ] 
+                        console.log(rows[0].Field) 
+            */
+            
         })
         .then(() => pool.releaseConnection(conn))
         .catch(err => console.log(err))

@@ -8,7 +8,7 @@ function delete_executive(req, res,json_object,table_name){
         conn.promise().query(sqlQuery, [json_object.executive_id])
         .then(() => {
             pool.releaseConnection(conn);
-            req.flash('messages', { type: 'success', value: "Successfully deleted a new "+table_name+"!" })
+            req.flash('messages', { type: 'success', value: "Successfully deleted one "+table_name+"!" })
             res.redirect('/');
         })
         .catch(err => {
@@ -27,7 +27,7 @@ function delete_worksatproject(req, res,json_object,table_name){
         conn.promise().query(sqlQuery, [json_object.researcher_id, json_object.project_id])
         .then(() => {
             pool.releaseConnection(conn);
-            req.flash('messages', { type: 'success', value: "Successfully deleted a new "+table_name+"!" })
+            req.flash('messages', { type: 'success', value: "Successfully deleted a "+table_name+" relationship !" })
             res.redirect('/');
         })
         .catch(err => {
@@ -46,7 +46,7 @@ function delete_organizationn(req, res,json_object,table_name){
         conn.promise().query(sqlQuery, [json_object.organizationn_id])
         .then(() => {
             pool.releaseConnection(conn);
-            req.flash('messages', { type: 'success', value: "Successfully deleted a new "+table_name+"!" })
+            req.flash('messages', { type: 'success', value: "Successfully deleted one "+table_name+"!" })
             res.redirect('/');
         })
         .catch(err => {
@@ -64,7 +64,7 @@ function delete_phones(req, res,json_object,table_name){
         conn.promise().query(sqlQuery, [json_object.phone ,json_object.organizationn_id])
         .then(() => {
             pool.releaseConnection(conn);
-            req.flash('messages', { type: 'success', value: "Successfully deleted a new "+table_name+"!" })
+            req.flash('messages', { type: 'success', value: "Successfully deleted one of the "+table_name+"!" })
             res.redirect('/');
         })
         .catch(err => {
@@ -83,7 +83,7 @@ function delete_evaluation(req, res,json_object,table_name){
         conn.promise().query(sqlQuery, [json_object.evaluation_id])
         .then(() => {
             pool.releaseConnection(conn);
-            req.flash('messages', { type: 'success', value: "Successfully deleted a new "+table_name+"!" })
+            req.flash('messages', { type: 'success', value: "Successfully deleted an "+table_name+"!" })
             res.redirect('/');
         })
         .catch(err => {
@@ -101,7 +101,7 @@ function delete_researcher(req, res,json_object,table_name){
         conn.promise().query(sqlQuery, [json_object.researcher_id])
         .then(() => {
             pool.releaseConnection(conn);
-            req.flash('messages', { type: 'success', value: "Successfully deleted a new "+table_name+"!" })
+            req.flash('messages', { type: 'success', value: "Successfully deleted a "+table_name+"!" })
             res.redirect('/');
         })
         .catch(err => {
@@ -119,7 +119,7 @@ function delete_program(req, res,json_object,table_name){
         conn.promise().query(sqlQuery, [json_object.program_id])
         .then(() => {
             pool.releaseConnection(conn);
-            req.flash('messages', { type: 'success', value: "Successfully deleted a new "+table_name+"!" })
+            req.flash('messages', { type: 'success', value: "Successfully deleted a "+table_name+"!" })
             res.redirect('/');
         })
         .catch(err => {
@@ -138,7 +138,7 @@ function delete_deliverable(req, res,json_object,table_name){
         conn.promise().query(sqlQuery, [json_object.title])
         .then(() => {
             pool.releaseConnection(conn);
-            req.flash('messages', { type: 'success', value: "Successfully deleted a new "+table_name+"!" })
+            req.flash('messages', { type: 'success', value: "Successfully deleted a "+table_name+"!" })
             res.redirect('/');
         })
         .catch(err => {
@@ -157,7 +157,7 @@ function delete_relates(req, res,json_object,table_name){
         conn.promise().query(sqlQuery, [json_object.scientific_field_name, json_object.project_id])
         .then(() => {
             pool.releaseConnection(conn);
-            req.flash('messages', { type: 'success', value: "Successfully deleted a new "+table_name+"!" })
+            req.flash('messages', { type: 'success', value: "Successfully deleted a "+table_name+"!" })
             res.redirect('/');
         })
         .catch(err => {
@@ -175,7 +175,7 @@ function delete_scientific_field(req, res,json_object,table_name){
         conn.promise().query(sqlQuery, [json_object.scientific_field_name])
         .then(() => {
             pool.releaseConnection(conn);
-            req.flash('messages', { type: 'success', value: "Successfully deleted a new "+table_name+"!" })
+            req.flash('messages', { type: 'success', value: "Successfully deleted the Sci_field"+table_name+"!" })
             res.redirect('/');
         })
         .catch(err => {
@@ -194,7 +194,7 @@ function delete_project(req, res,json_object,table_name){
         conn.promise().query(sqlQuery, [json_object.project_id])
         .then(() => {
             pool.releaseConnection(conn);
-            req.flash('messages', { type: 'success', value: "Successfully deleted a new "+table_name+"!" })
+            req.flash('messages', { type: 'success', value: "Successfully deleted a "+table_name+"!" })
             res.redirect('/');
         })
         .catch(err => {

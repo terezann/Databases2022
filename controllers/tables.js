@@ -103,10 +103,33 @@ function insertEvaluation(req,res) {
 
  function insertPhones(req,res) {
     res.render('Insertions_Updates/phones.ejs', {
-        pageTitle: "Phones Insertion",
+        pageTitle: "Phone Insertion",
         insert: true
     });
  } 
+
+ function insertProgram(req,res) {
+    res.render('Insertions_Updates/prog.ejs', {
+        pageTitle: "Program Insertion",
+        insert: true
+    });
+ } 
+
+ function insertProject(req,res) {
+    res.render('Insertions_Updates/proJ.ejs', {
+        pageTitle: "Project Insertion",
+        insert: true
+    });
+ } 
+ 
+ function insertResearcher(req,res) {
+    res.render('Insertions_Updates/resea.ejs', {
+        pageTitle: "Researcher Insertion",
+        insert: true
+    });
+ }
+
+
 
 exports.getInsert = (req, res, next) => {
 
@@ -121,6 +144,15 @@ exports.getInsert = (req, res, next) => {
     }
     else if (req.params.table_name == 'phones'){
         insertPhones(req,res)
+    }
+    else if (req.params.table_name == 'program'){
+        insertProgram(req,res)
+    }
+    else if (req.params.table_name == 'project'){
+        insertProject(req,res)
+    }
+    else if (req.params.table_name == 'researcher'){
+        insertResearcher(req,res)
     }
 }
 
@@ -226,6 +258,65 @@ exports.postInsert = (req, res, next) => {
             })
             .catch(err => {
                 req.flash('messages', { type: 'error', value: "Something went wrong, Organization could not be added." })
+                res.redirect('/');
+            })
+        });
+    }
+
+    // ############## PROGRAMS ##################
+    if (req.params.table_name == 'program'){
+        const name = req.body.pro_name;
+        const add = req.body.pro_add;
+
+        var sql = `insert into program (program_name, address) values (?,?);`
+        pool.getConnection((err, conn) => {
+            if(err){
+                console.log(err);
+            }
+            // a promise can succeed or fail.
+            conn.promise().query(sql, [name, add])
+            .then(() => {
+                               
+                pool.releaseConnection(conn);
+                req.flash('messages', { type: 'success', value: "Successfully added a new Executive!" })
+                res.redirect('/');
+            })
+            .catch(err => {
+                req.flash('messages', { type: 'error', value: "Something went wrong, Executive could not be added." })
+                res.redirect('/');
+            })
+        });
+    }
+
+    // ############## PROJECTS ##################
+    if (req.params.table_name == 'program'){
+        const title = req.body.pro_tit;
+        const summary = req.body.pro_sum;
+        const Sdate = req.body.pro_Sdate;
+        const Edate = req.body.pro_Edate;
+        const amount = req.body.pro_am;
+        const OrgId = req.body.pro_org_id;
+        const ExeId = req.body.pro_exe_id;
+        const ProgId = req.body.pro_pro_id;
+        const EvaId = req.body.pro_eva_id;
+        const EvaluatorId = req.body.pro_evaluator;
+        const ChiefId = req.body.pro_chief;
+
+        var sql = `insert into project (title, summary, start_date, end_date, amount, organizationn_id, executive_id, program_id, evaluation_id, evaluator_id, chief_id) values (?,?,?,?,?,?,?,?,?,?,?);`
+        pool.getConnection((err, conn) => {
+            if(err){
+                console.log(err);
+            }
+            // a promise can succeed or fail.
+            conn.promise().query(sql, [title, summary, Sdate, Edate, amount, OrgId, ExeId, ProgId, EvaId, EvaluatorId, ChiefId])
+            .then(() => {
+                               
+                pool.releaseConnection(conn);
+                req.flash('messages', { type: 'success', value: "Successfully added a new Executive!" })
+                res.redirect('/');
+            })
+            .catch(err => {
+                req.flash('messages', { type: 'error', value: "Something went wrong, Executive could not be added." })
                 res.redirect('/');
             })
         });

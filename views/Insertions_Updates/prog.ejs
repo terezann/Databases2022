@@ -17,14 +17,14 @@
     <div class="container">
         <div class="row" id="row">
             <div class="col-md-12">
-                <form class="form-horizontal" name="programs-criteria" action="/tables/create/phones" method="POST">
+                <form class="form-horizontal" name="programs-criteria" action="/tables/create/program" method="POST">
                     <div class="form-group col-sm-3 mb-3">
-                        <label for="pho">Phone</label>
-                        <input type="number" min="1000000000" max="9999999999" step="1" id="pho" name="pho" placeholder="Enter phone number" required>
+                        <label for="pro_name">Program Name</label>
+                        <input type="text" id="pro_name" name="pro_name" placeholder="Enter Program name" required>
                     </div>
                     <div class="form-group col-sm-3 mb-3">
-                        <label for="id">Organization ID</label>
-                        <input type="number" min="1" max="999" step="1" id="id" name="id" placeholder="Enter organization's id" required>
+                        <label for="pro_add">Address</label>
+                        <input type="text" id="pro_add" name="pro_add" placeholder="Enter Program's Address" required>
                     </div>
             
                     <button type="submit" class="btn btn-primary btn-submit-custom">Add</button>
@@ -41,12 +41,16 @@
                     <form class="form-horizontal" name="programs-criteria" action="/update/perform_update" method="POST">
                         <div class="form-group col-sm-3 mb-3">
                             
-                            <input type="hidden" name="table" value="phones">
+                            <input type="hidden" name="table" value="program">
                             <input type="hidden" name="object" value="<%= JSON.stringify(old_tuple) %>"> <%/* we need old tuple for executive_id*/%>
                             
                             <%/* new tuple*/%>
-                            <label for="pho">Phone Number</label>
-                            <input type="text" id="pho" name="pho" placeholder="Enter phone number" value="<%=old_tuple.phone%>" required>
+                            <label for="pro_name">Program Name</label>
+                            <input type="text" id="pro_name" name="pro_name" placeholder="Enter Program name" value="<%=old_tuple.program_name%>" required>
+                        </div>
+                        <div class="form-group col-sm-3 mb-3">
+                            <label for="pro_add">Address</label>
+                            <input type="text" id="pro_add" name="pro_add" placeholder="Enter Program address" value="<%=old_tuple.address%>" required>
                         </div>
                 
                         <button type="submit" class="btn btn-primary btn-submit-custom">Update</button>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title> <%= pageTitle %> </title>
+    <%/*We include the CSS*/ %> 
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <%- include("../includes/navbar.ejs")%> <%/*We include navbar*/ %>
+
+    <% if (locals.insert) { /*if insert=true from getInsert*/ %>
+    <div class="container">
+        <div class="row" id="row">
+            <div class="col-md-12">
+                <form class="form-horizontal" name="programs-criteria" action="/tables/create/project" method="POST">
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="pro_tit">Project's Title</label>
+                        <input type="text" id="pro_tit" name="pro_tit" placeholder="Enter project's title" required>
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="pro_sum">Summary</label>
+                        <input type="text" id="pro_sum" name="pro_sum" placeholder="Enter summary of project" required>
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="pro_Sdate">Start Date</label>
+                        <input type="date" id="proSdate" name="proSdate" value="2022-06-09" required>
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="pro_Edate">End Date</label>
+                        <input type="date" id="pro_Edate" name="pro_Edate" value="2022-06-09" required>
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="pro_am">Amount</label>
+                        <input type="number" min="100000" step="1" max="1000000"  id="pro_am" name="pro_am" placeholder="Enter the €s without the symbol" required>
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="pro_org_id">ID of the project's organization</label>
+                        <input type="number" min="1" step="1" max="2000" id="pro_org_id" name="pro_org_id" placeholder="Enter ID" required>
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="pro_exe_id">ID of the project's executive</label>
+                        <input type="number" min="1" step="1" max="1000" id="pro_exe_id" name="pro_exe_id" placeholder="Enter ID" >
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="pro_pro_id">ID of the project's program</label>
+                        <input type="number" min="1" step="1" max="100" id="pro_pro_id" name="pro_pro_id" placeholder="Enter ID">
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="pro_eva_id">ID of the project's evaluation</label>
+                        <input type="number" min="1" step="1" max="1000" id="pro_eva_id" name="pro_eva_id" placeholder="Enter ID">
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="pro_evaluator">ID of the project's evaluator</label>
+                        <input type="number" min="1" step="1" max="1000" id="pro_evaluator" name="pro_evaluator" placeholder="Enter ID">
+                    </div>
+                    <div class="form-group col-sm-3 mb-3">
+                        <label for="pro_chief">ID of the project's chief</label>
+                        <input type="number" min="1" step="1" max="1000" id="pro_chief" name="pro_chief" placeholder="Enter ID">
+                    </div>
+                    
+            
+                    <button type="submit" class="btn btn-primary btn-submit-custom">Add</button>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+    <%}%>
+    <%if (locals.update){%> <%/* value="<%=old_tuple.organization_name%>" */%>
+        <div class="container">
+            <div class="row" id="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" name="programs-criteria" action="/update/perform_update" method="POST">
+                        <div class="form-group col-sm-3 mb-3">
+                            
+                            <%/*hidden table and json object that we need for the controller*/%>
+                            <input type="hidden" name="table" value="organizationn">
+                            <input type="hidden" name="object" value="<%= JSON.stringify(old_tuple) %>"> <%/* we need old tuple for executive_id*/%>
+                            
+                            <%/* new tuple*/%>
+                            <div class="form-group col-sm-3 mb-3">
+                                <label for="pro_tit">Project's Title</label>
+                                <input type="text" id="pro_tit" name="pro_tit" placeholder="Enter project's title" value="<%=old_tuple.title%>" required>
+                            </div>
+                            <div class="form-group col-sm-3 mb-3">
+                                <label for="pro_sum">Summary</label>
+                                <input type="text" id="pro_sum" name="pro_sum" placeholder="Enter summary of project" value="<%=old_tuple.summary%>" required>
+                            </div>
+                            <div class="form-group col-sm-3 mb-3">
+                                <label for="pro_Sdate">Start Date</label>
+                                <input type="date" id="proSdate" name="proSdate" value="<%=old_tuple.start_date%>" required>
+                            </div>
+                            <div class="form-group col-sm-3 mb-3">
+                                <label for="pro_Edate">End Date</label>
+                                <input type="date" id="pro_Edate" name="pro_Edate" value="<%=old_tuple.end_date%>" required>
+                            </div>
+                            <div class="form-group col-sm-3 mb-3">
+                                <label for="pro_am">Amount</label>
+                                <input type="number" min="100000" step="1" max="1000000"  id="pro_am" name="pro_am" placeholder="Enter the €s without the symbol" value="<%=old_tuple.amount%>" required>
+                            </div>
+                            <div class="form-group col-sm-3 mb-3">
+                                <label for="pro_org_id">ID of the project's organization</label>
+                                <input type="number" min="1" step="1" max="2000" id="pro_org_id" name="pro_org_id" placeholder="Enter ID" value="<%=old_tuple.organizationn_id%>" required>
+                            </div>
+                            <div class="form-group col-sm-3 mb-3">
+                                <label for="pro_exe_id">ID of the project's executive</label>
+                                <input type="number" min="1" step="1" max="1000" id="pro_exe_id" name="pro_exe_id" placeholder="Enter ID" value="<%=old_tuple.executive_id%>" required>
+                            </div>
+                            <div class="form-group col-sm-3 mb-3">
+                                <label for="pro_pro_id">ID of the project's program</label>
+                                <input type="number" min="1" step="1" max="100" id="pro_pro_id" name="pro_pro_id" placeholder="Enter ID" value="<%=old_tuple.program_id%>" required>
+                            </div>
+                            <div class="form-group col-sm-3 mb-3">
+                                <label for="pro_eva_id">ID of the project's evaluation</label>
+                                <input type="number" min="1" step="1" max="1000" id="pro_eva_id" name="pro_eva_id" placeholder="Enter ID" value="<%=old_tuple.evaluation_id%>" required>
+                            </div>
+                            <div class="form-group col-sm-3 mb-3">
+                                <label for="pro_evaluator">ID of the project's evaluator</label>
+                                <input type="number" min="1" step="1" max="1000" id="pro_evaluator" name="pro_evaluator" placeholder="Enter ID" value="<%=old_tuple.evaluator_id%>" required>
+                            </div>
+                            <div class="form-group col-sm-3 mb-3">
+                                <label for="pro_chief">ID of the project's chief</label>
+                                <input type="number" min="1" step="1" max="1000" id="pro_chief" name="pro_chief" placeholder="Enter ID" value="<%=old_tuple.chief_id%>" required>
+                            </div>    
+                
+                        <button type="submit" class="btn btn-primary btn-submit-custom">Update</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    <%}%>
+    
+   
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

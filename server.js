@@ -33,7 +33,7 @@ server.use(session({
 
 
 
-//GET https://localhost:3000/
+//GET http://localhost:3000/
 server.get("/" , (req,res) => {
     /* check for messages in order to show them when rendering the page */
     let messages = req.flash("messages");

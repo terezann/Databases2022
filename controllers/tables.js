@@ -253,11 +253,11 @@ exports.postInsert = (req, res, next) => {
             .then(() => {
                                
                 pool.releaseConnection(conn);
-                req.flash('messages', { type: 'success', value: "Successfully added a new Organization!" })
+                req.flash('messages', { type: 'success', value: "Successfully added a new Phone!" })
                 res.redirect('/');
             })
             .catch(err => {
-                req.flash('messages', { type: 'error', value: "Something went wrong, Organization could not be added." })
+                req.flash('messages', { type: 'error', value: "Something went wrong, Phone could not be added." })
                 res.redirect('/');
             })
         });
@@ -278,11 +278,11 @@ exports.postInsert = (req, res, next) => {
             .then(() => {
                                
                 pool.releaseConnection(conn);
-                req.flash('messages', { type: 'success', value: "Successfully added a new Executive!" })
+                req.flash('messages', { type: 'success', value: "Successfully added a new Program!" })
                 res.redirect('/');
             })
             .catch(err => {
-                req.flash('messages', { type: 'error', value: "Something went wrong, Executive could not be added." })
+                req.flash('messages', { type: 'error', value: "Something went wrong, Program could not be added." })
                 res.redirect('/');
             })
         });
@@ -312,14 +312,39 @@ exports.postInsert = (req, res, next) => {
             .then(() => {
                                
                 pool.releaseConnection(conn);
-                req.flash('messages', { type: 'success', value: "Successfully added a new Executive!" })
+                req.flash('messages', { type: 'success', value: "Successfully added a new Project!" })
                 res.redirect('/');
             })
             .catch(err => {
-                req.flash('messages', { type: 'error', value: "Something went wrong, Executive could not be added." })
+                req.flash('messages', { type: 'error', value: "Something went wrong, Project could not be added." })
                 res.redirect('/');
             })
         });
     }
     
+
+    // ############## RESEARCHERS ##################
+    if (req.params.table_name == 'program'){
+        const title = req.body.pro_tit;
+        
+
+        var sql = `insert into project (title, summary, start_date, end_date, amount, organizationn_id, executive_id, program_id, evaluation_id, evaluator_id, chief_id) values (?,?,?,?,?,?,?,?,?,?,?);`
+        pool.getConnection((err, conn) => {
+            if(err){
+                console.log(err);
+            }
+            // a promise can succeed or fail.
+            conn.promise().query(sql, [title, summary, Sdate, Edate, amount, OrgId, ExeId, ProgId, EvaId, EvaluatorId, ChiefId])
+            .then(() => {
+                               
+                pool.releaseConnection(conn);
+                req.flash('messages', { type: 'success', value: "Successfully added a new Researcher!" })
+                res.redirect('/');
+            })
+            .catch(err => {
+                req.flash('messages', { type: 'error', value: "Something went wrong, Researcher could not be added." })
+                res.redirect('/');
+            })
+        });
+    }
 }
